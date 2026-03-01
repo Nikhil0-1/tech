@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Admin Dashboard | EDUTUG INDIA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    
+    <script src="firebase-config.js"></script>
+    <script src="auth.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">EDUTUG INDIA</div>
+            <nav class="sidebar-nav">
+                <a href="#" class="active">Overview</a>
+                <a href="#schools">Manage Schools</a>
+                <a href="#analytics">Platform Analytics</a>
+                <a href="#settings">Settings</a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="btn-secondary w-full" id="logoutBtn">Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="topbar">
+                <h2>Super Admin Dashboard</h2>
+                <div class="user-info">
+                    <span>Welcome, Admin</span>
+                </div>
+            </div>
+
+            <!-- Stats Overview -->
+            <div class="stats-grid">
+                <div class="card stat-card">
+                    <h3>Total Schools</h3>
+                    <div class="value" id="totalSchools">0</div>
+                </div>
+                <div class="card stat-card">
+                    <h3>Active Sessions</h3>
+                    <div class="value" id="activeSessions">0</div>
+                </div>
+                <div class="card stat-card">
+                    <h3>Total Students</h3>
+                    <div class="value" id="totalStudents">0</div>
+                </div>
+            </div>
+
+            <!-- Manage Schools Section -->
+            <div class="card" id="schools">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h3>Registered Schools</h3>
+                    <button class="btn-primary" onclick="openAddSchoolModal()">+ Add New School</button>
+                </div>
+                
+                <div style="overflow-x: auto;">
+                    <table id="schoolsTable">
+                        <thead>
+                            <tr>
+                                <th>School ID</th>
+                                <th>School Name</th>
+                                <th>Status</th>
+                                <th>Admin Email</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Mock Data for Display -->
+                            <tr>
+                                <td>SCH_001</td>
+                                <td>Delhi Public School RK Puram</td>
+                                <td><span style="color: var(--success-green); font-weight: 500;">Active</span></td>
+                                <td>admin@dpsrkp.edu.in</td>
+                                <td>
+                                    <button class="btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.85rem;">Edit</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Simple Script to Handle Mock Data / Interactivity -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Require super_admin role checking
+            // if(window.edutugAuthManager) {
+            //     window.edutugAuthManager.requireRole(['super_admin']);
+            // }
+
+            // Document interactions
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                if(window.edutugAuthManager) window.edutugAuthManager.logout();
+                else alert("Logout clicked (Auth not connected)");
+            });
+        });
+
+        function openAddSchoolModal() {
+            alert("Add School Modal triggered. (Implementation depends on UI library / custom modals)");
+        }
+    </script>
+</body>
+</html>

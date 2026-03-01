@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Screen | EDUTUG INDIA</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+
+    <script src="firebase-config.js"></script>
+</head>
+
+<body>
+    <div class="game-container" id="gameScreen">
+
+        <!-- Winner Overlay -->
+        <div class="winner-overlay" id="winnerOverlay">
+            <h1 class="winner-text" id="winnerText">Team 1 Wins!</h1>
+            <button class="btn-primary" onclick="window.close()" style="font-size: 1.5rem;">Close Session</button>
+        </div>
+
+        <header class="game-header">
+            <div class="score-board">
+                <div class="team-score" style="color: var(--accent-saffron);">
+                    <span>Team 1</span>
+                    <span id="score1">0</span>
+                </div>
+            </div>
+
+            <div class="timer-display" id="timer">30</div>
+
+            <div class="score-board">
+                <div class="team-score" style="color: var(--success-green);">
+                    <span>Team 2</span>
+                    <span id="score2">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Tug of War Visual -->
+        <div class="tug-of-war-arena">
+            <div class="center-line"></div>
+
+            <div class="rope" id="rope"></div>
+
+            <div class="team-avatar team-1-avatar">T1</div>
+            <div class="team-avatar team-2-avatar">T2</div>
+        </div>
+
+        <!-- Question Display -->
+        <main class="question-area">
+            <h2 class="question-text" id="questionText">Loading Question...</h2>
+
+            <div class="split-controls">
+                <!-- Team 1 Controls -->
+                <div class="team-controls">
+                    <h3 style="color: var(--accent-saffron); margin-bottom: 0.5rem;">Team 1</h3>
+                    <p style="font-size: 0.9rem; color: rgba(255,255,255,0.7); margin-bottom: 1rem;">Keyboard: Q, W, E,
+                        R</p>
+                    <div class="controls-grid">
+                        <button class="game-btn t1-btn" onclick="submitAnswer(1, 0)" id="t1opt1">A</button>
+                        <button class="game-btn t1-btn" onclick="submitAnswer(1, 1)" id="t1opt2">B</button>
+                        <button class="game-btn t1-btn" onclick="submitAnswer(1, 2)" id="t1opt3">C</button>
+                        <button class="game-btn t1-btn" onclick="submitAnswer(1, 3)" id="t1opt4">D</button>
+                    </div>
+                </div>
+
+                <!-- Team 2 Controls -->
+                <div class="team-controls">
+                    <h3 style="color: var(--success-green); margin-bottom: 0.5rem;">Team 2</h3>
+                    <p style="font-size: 0.9rem; color: rgba(255,255,255,0.7); margin-bottom: 1rem;">Keyboard: 7, 8, 9,
+                        0</p>
+                    <div class="controls-grid">
+                        <button class="game-btn t2-btn" onclick="submitAnswer(2, 0)" id="t2opt1">A</button>
+                        <button class="game-btn t2-btn" onclick="submitAnswer(2, 1)" id="t2opt2">B</button>
+                        <button class="game-btn t2-btn" onclick="submitAnswer(2, 2)" id="t2opt3">C</button>
+                        <button class="game-btn t2-btn" onclick="submitAnswer(2, 3)" id="t2opt4">D</button>
+                    </div>
+                </div>
+            </div>
+            <p style="margin-top: 2rem; color: rgba(255,255,255,0.7);">
+                First team to pull the rope past their line wins!
+            </p>
+        </main>
+    </div>
+
+    <!-- Engine Script -->
+    <script src="game-engine.js"></script>
+</body>
+
+</html>

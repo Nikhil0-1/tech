@@ -1,0 +1,35 @@
+{
+  "rules": {
+    "schools": {
+      "$school_id": {
+        ".read": "auth != null",
+        ".write": "root.child('users/super_admin/'+auth.uid).exists() || root.child('schools/'+$school_id+'/admin').val() == auth.uid"
+      }
+    },
+    "users": {
+        ".read": "root.child('users/super_admin/'+auth.uid).exists()",
+        "$uid": {
+            ".read": "$uid === auth.uid",
+            ".write": "$uid === auth.uid"
+        }
+    },
+    "questions": {
+      // Teachers and Admins can read
+      ".read": "auth != null",
+      // Only school admins or super admins can write questions
+      ".write": "root.child('users/super_admin/'+auth.uid).exists() || root.child('users/school_admin/'+auth.uid).exists()"
+    },
+    "sessions": {
+      // Anyone logged in can read sessions (students, teachers)
+      ".read": "auth != null",
+      "$session_id": {
+        // Teacher creates the session. Students update the score/rope position.
+        ".write": "auth != null"
+      }
+    },
+    "analytics": {
+      ".read": "root.child('users/super_admin/'+auth.uid).exists() || root.child('users/school_admin/'+auth.uid).exists() || root.child('users/teachers/'+auth.uid).exists()",
+      ".write": "false" // Analytics should ideally be written by Cloud Functions
+    }
+  }
+}

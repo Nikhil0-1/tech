@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard | EDUTUG INDIA</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+
+    <script src="firebase-config.js"></script>
+    <script src="auth.js"></script>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">EDUTUG INDIA</div>
+            <nav class="sidebar-nav">
+                <a href="#" class="active">Start Session</a>
+                <a href="#reports">Class Reports</a>
+                <a href="#weak-topics">Topic Analysis</a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="btn-secondary w-full" id="logoutBtn">Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="topbar">
+                <h2>Teacher Dashboard</h2>
+                <div class="user-info">
+                    <span id="teacherNameDisplay">Welcome, Teacher</span>
+                </div>
+            </div>
+
+            <div class="grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem;">
+
+                <!-- Start Game Session -->
+                <div class="card">
+                    <h3 class="mb-2">Launch Quick Battle Mode</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label>Class</label>
+                            <select id="gameClass">
+                                <option value="class8">Class 8</option>
+                                <option value="class9">Class 9</option>
+                                <option value="class10">Class 10</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <select id="gameSubject">
+                                <option value="math">Mathematics</option>
+                                <option value="science">Science</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Topic</label>
+                            <select id="gameTopic">
+                                <option value="algebra">Algebra</option>
+                                <option value="geometry">Geometry</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Difficulty</label>
+                            <select id="gameDifficulty">
+                                <option value="easy">Easy</option>
+                                <option value="medium">Medium</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-2">
+                        <label>Language</label>
+                        <select id="gameLang" style="max-width: 200px;">
+                            <option value="en">English</option>
+                            <option value="hi">Hindi</option>
+                        </select>
+                    </div>
+
+                    <button class="btn-primary mt-3" style="font-size: 1.2rem; padding: 1rem 2rem;"
+                        onclick="launchGame()">
+                        Launch Game Screen
+                    </button>
+                    <p style="margin-top: 1rem; color: #6c757d; font-size: 0.9rem;">
+                        This will open the game in full-screen on the Smart Board.
+                    </p>
+                </div>
+
+                <!-- Quick Analytics -->
+                <div class="card">
+                    <h3 class="mb-2">Recent Sessions</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 1rem 0; border-bottom: 1px solid var(--border-color);">
+                            <strong>Class 10 - Algebra</strong><br>
+                            <small>Team A Won • 15 Mins ago</small>
+                        </li>
+                        <li style="padding: 1rem 0; border-bottom: 1px solid var(--border-color);">
+                            <strong>Class 9 - Physics</strong><br>
+                            <small>Team B Won • Yesterday</small>
+                        </li>
+                    </ul>
+                    <button class="btn-secondary w-full mt-2" onclick="downloadCSV()">Download Report (CSV)</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Require teacher role
+            // if(window.edutugAuthManager) {
+            //     window.edutugAuthManager.requireRole(['teacher']);
+            // }
+
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                if (window.edutugAuthManager) window.edutugAuthManager.logout();
+            });
+        });
+
+        function launchGame() {
+            const gameClass = document.getElementById('gameClass').value;
+            const topic = document.getElementById('gameTopic').value;
+
+            // Generate a random session ID for real-time sync
+            const sessionId = 'session_' + Math.random().toString(36).substr(2, 9);
+
+            // In a real flow, write session to DB first, then open window
+            window.open(`index.html?session=${sessionId}&class=${gameClass}&topic=${topic}`, '_blank');
+        }
+
+        function downloadCSV() {
+            alert('Downloading performance details as CSV... (Handled in analytics.js)');
+        }
+    </script>
+</body>
+
+</html>

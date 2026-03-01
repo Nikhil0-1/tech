@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Admin Dashboard | EDUTUG INDIA</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+
+    <script src="firebase-config.js"></script>
+    <script src="auth.js"></script>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">EDUTUG INDIA</div>
+            <nav class="sidebar-nav">
+                <a href="#" class="active">Overview</a>
+                <a href="#teachers">Teachers</a>
+                <a href="#classes">Classes & Subjects</a>
+                <a href="#question-bank">Question Bank</a>
+                <a href="#analytics">School Analytics</a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="btn-secondary w-full" id="logoutBtn">Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="topbar">
+                <h2>School Admin Portal</h2>
+                <div class="user-info">
+                    <span id="schoolNameDisplay">Sample Public School</span>
+                </div>
+            </div>
+
+            <!-- Stats Overview -->
+            <div class="stats-grid">
+                <div class="card stat-card">
+                    <h3>Total Teachers</h3>
+                    <div class="value" id="totalTeachers">12</div>
+                </div>
+                <div class="card stat-card">
+                    <h3>Active Classes</h3>
+                    <div class="value" id="activeClasses">8</div>
+                </div>
+                <div class="card stat-card">
+                    <h3>Games Played</h3>
+                    <div class="value" id="gamesPlayed">145</div>
+                </div>
+            </div>
+
+            <!-- Manage Teachers / Question Bank -->
+            <div class="grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <!-- Teachers -->
+                <div class="card" id="teachers">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3>Teachers</h3>
+                        <button class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">+ Add
+                            Teacher</button>
+                    </div>
+                    <ul style="list-style: none; padding: 0;">
+                        <li
+                            style="padding: 1rem 0; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between;">
+                            <div>
+                                <strong>Ramesh Sharma</strong><br>
+                                <small style="color: #6c757d;">Mathematics - Class 10</small>
+                            </div>
+                            <button class="btn-secondary"
+                                style="background: transparent; color: var(--danger-red); border: 1px solid var(--danger-red); padding: 0.25rem 0.75rem;">Remove</button>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Question Bank Upload -->
+                <div class="card" id="question-bank">
+                    <h3>Upload Question Bank</h3>
+                    <p style="color: #6c757d; margin-bottom: 1rem; font-size: 0.9rem;">Upload CBSE aligned JSON format
+                        questions.</p>
+
+                    <div class="form-group">
+                        <label>Select Class</label>
+                        <select>
+                            <option>Class 8</option>
+                            <option>Class 9</option>
+                            <option>Class 10</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Select Subject</label>
+                        <select>
+                            <option>Mathematics</option>
+                            <option>Science</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>JSON File</label>
+                        <input type="file" accept=".json">
+                    </div>
+
+                    <button class="btn-primary w-full mt-2">Upload & Validate</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Require school_admin role
+            // if(window.edutugAuthManager) {
+            //     window.edutugAuthManager.requireRole(['school_admin']);
+            // }
+
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                if (window.edutugAuthManager) window.edutugAuthManager.logout();
+            });
+        });
+    </script>
+</body>
+
+</html>
